@@ -1,0 +1,188 @@
+
+Sub-Topics
+
+LEFT
+RIGHT
+INNER
+OUTER
+CROSS
+SELF
+UNION UNIONALL
+Views
+Example on views and joins
+
+___________________________________________________________________________________
+
+
+CREATE table Agent
+		(EmpID varchar(50),
+		 Name varchar(50),
+		 Sales int);	
+         
+CREATE table Manager
+		(EmpID varchar(50),
+		 Manager varchar(50));	         
+         
+INSERT INTO agent  values 
+	( 'E1001','Ajay',704),
+	( 'E1002','Vijay',105),
+	( 'E1004','Amar',250),
+	( 'E1005','Akbar',350),
+	( 'E1009','Anthony',750),
+    ( 'E1011','Prem',1000);          
+    
+select * from agent;
+    
+INSERT INTO Manager  values 
+	( 'E1001','TOM'),	( 'E1002','TOM'),	( 'E1003','TOM'),
+	( 'E1004','DOM'),	( 'E1005','DOM'),	( 'E1006','DOM'),
+	( 'E1007','KOM'),	( 'E1008','KOM'),	( 'E1009','KOM'),	( 'E1010','KOM'); 
+    
+
+select * from Manager;
+
+--------------------------------------------------------
+SELECT A.EMPID , A.NAME, A.SALES , M.MANAGER 
+FROM AGENT AS A
+LEFT JOIN
+MANAGER AS M
+ON A.EMPID  = M.EMPID;
+    
+
+--------------------------------------------------------
+SELECT M.EMPID ,M.MANAGER, A.NAME, A.SALES  
+FROM AGENT AS A
+RIGHT JOIN
+MANAGER AS M
+ON A.EMPID  = M.EMPID;
+
+--------------------------------------------------------
+
+SELECT A.EMPID , A.NAME, A.SALES , M.MANAGER 
+FROM AGENT AS A
+INNER JOIN
+MANAGER AS M
+ON A.EMPID  = M.EMPID;
+
+--------------------------------------------------------
+SELECT * FROM AGENT AS A 
+LEFT OUTER JOIN 
+MANAGER AS M
+ON A.EMPID = M.EMPID;
+
+SELECT * FROM AGENT AS A 
+RIGHT OUTER JOIN 
+MANAGER AS M
+ON A.EMPID = M.EMPID;
+----------------------------------------------------------------------
+
+SELECT A.EMPID , A.NAME, A.SALES , M.MANAGER 
+FROM AGENT AS A
+CROSS JOIN
+MANAGER AS M;
+
+----------------------------------------------------------------------
+SELECT  A.EMPID AS A_EMPID , A.NAME, A.SALES,
+B.EMPID AS B_EMPID ,B.NAME, B.SALES
+FROM 
+AGENT AS A, 
+AGENT AS B;
+------------------------------------------   
+
+CREATE table JAN_SALES
+		(ORDER_ID varchar(50),
+         MTH VARCHAR(50),
+		 PRODUCT varchar(50),
+		 Sales int);	
+         
+CREATE table FEB_SALES
+		(ORDER_ID varchar(50),
+        MTH VARCHAR(50),
+		 PRODUCT varchar(50),
+		 Sales int);	
+         
+CREATE table MAR_SALES
+		(ORDER_ID varchar(50),
+        MTH VARCHAR(50),
+		 PRODUCT varchar(50),
+		 Sales int);	
+
+         
+INSERT INTO JAN_SALES  
+	values 
+	( 'INV1001','JAN','LAPTOP',5000),
+	( 'INV1002','JAN','MOUSE',200),
+	( 'INV1003','JAN','KEYBOARD',250),
+	( 'INV1004','JAN','DOCK',2500),
+	( 'INV1005','JAN','MONITOR',3000);
+
+
+INSERT INTO FEB_SALES 
+	values 
+	( 'INV1006','FEB','LAPTOP',6000),
+	( 'INV1007','FEB','MOUSE',300),
+	( 'INV1008','FEB','KEYBOARD',350),
+	( 'INV1009','FEB','DOCK',3500),
+	( 'INV1010','FEB','MONITOR',4000);
+
+INSERT INTO MAR_SALES  
+	values 
+	( 'INV1011','MAR','LAPTOP',7000),
+	( 'INV1012','MAR','MOUSE',400),
+	( 'INV1013','MAR','KEYBOARD',450),
+	( 'INV1014','MAR','DOCK',2500),
+	( 'INV1015','MAR','MONITOR',4000);
+
+
+-----------------------------------
+
+SELECT PRODUCT FROM jan_sales
+UNION 
+SELECT PRODUCT FROM FEB_SALES
+UNION 
+SELECT PRODUCT FROM MAR_SALES;
+
+
+
+SELECT PRODUCT FROM jan_sales
+UNION ALL
+SELECT PRODUCT FROM FEB_SALES
+UNION ALL
+SELECT PRODUCT FROM MAR_SALES;
+
+
+SELECT * FROM jan_sales
+UNION ALL
+SELECT * FROM FEB_SALES
+UNION ALL
+SELECT * FROM MAR_SALES;
+
+______________________________________________
+
+CREATE VIEW MASTERTTABLE_VIEW AS 
+SELECT * FROM jan_sales
+UNION ALL
+SELECT * FROM FEB_SALES
+UNION ALL
+SELECT * FROM MAR_SALES;
+
+select PRODUCT , SUM(SALES)  AS TOTALSALES FROM MASTERTTABLE_VIEW GROUP BY PRODUCT ;
+
+CREATE VIEW AGENT_VIEW AS 
+SELECT * FROM AGENT;
+
+DROP VIEW AGENT_VIEW;
+
+______________________________________
+
+
+
+
+
+
+
+
+
+
+    
+
